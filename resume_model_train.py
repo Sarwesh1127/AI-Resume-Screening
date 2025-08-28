@@ -17,21 +17,17 @@ nltk.download('stopwords')
 nltk.download('wordnet')
 nltk.download('omw-1.4')
 
-# Load dataset
 df = pd.read_csv("data\AI_Resume_Screening.csv")
 
-# Add Decision column if not exists (for demo purposes)
 if 'Decision' not in df.columns:
     np.random.seed(42)
     df['Decision'] = np.random.choice(['Hire', 'Reject'], size=len(df))
 
-# Combine main text fields
 def combine_text(row):
     return f"{row['Skills']} {row['Education']} {str(row['Certifications'])}"
 
 df['resume_text'] = df.apply(combine_text, axis=1)
 
-# Cleaning functions
 def clean_text(text):
     text = str(text).lower()
     text = re.sub(r'\[.*?\]', '', text)
